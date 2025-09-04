@@ -5,7 +5,6 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isAnswered, setIsAnswered] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(30);
@@ -30,73 +29,64 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
 
   // Timer effect
   useEffect(() => {
-    if (timerActive && timeLeft > 0 && !isAnswered) {
+    if (timerActive && timeLeft > 0) {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !isAnswered) {
+    } else if (timeLeft === 0) {
       // Time's up - auto submit with no answer
       handleTimeUp();
     }
-  }, [timeLeft, timerActive, isAnswered]);
+  }, [timeLeft, timerActive]);
 
   // Start timer when question loads
   useEffect(() => {
     if (questions.length > 0 && !loading) {
       setTimeLeft(30);
       setTimerActive(true);
-      setIsAnswered(false);
       setSelectedAnswer(null);
     }
   }, [currentQuestionIndex, questions.length, loading]);
 
   const handleTimeUp = () => {
-    setIsAnswered(true);
     setTimerActive(false);
     // If no answer selected, treat as incorrect
     if (selectedAnswer === null) {
       setSelectedAnswer(-1); // -1 indicates no answer selected
     }
+    handleSubmitAndNext();
+  };
+
+  const handleSubmitAndNext = () => {
+    if (selectedAnswer !== null) {
+      const currentQuestion = questions[currentQuestionIndex];
+      const result = {
+        questionId: currentQuestion.id,
+        question: currentQuestion.question,
+        options: currentQuestion.options,
+        selectedAnswer: selectedAnswer,
+        correctAnswer: currentQuestion.correctAnswer,
+        isCorrect: selectedAnswer === currentQuestion.correctAnswer,
+        timeLeft: timeLeft,
+      };
+
+      const newResults = [...results, result];
+      setResults(newResults);
+
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setSelectedAnswer(null);
+        setTimeLeft(30);
+        setTimerActive(true);
+      } else {
+        onComplete(newResults);
+      }
+    }
   };
 
   const handleAnswerSelect = (answerIndex) => {
-    if (!isAnswered) {
-      setSelectedAnswer(answerIndex);
-    }
-  };
-
-  const handleNextQuestion = () => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const result = {
-      questionId: currentQuestion.id,
-      question: currentQuestion.question,
-      options: currentQuestion.options,
-      selectedAnswer: selectedAnswer,
-      correctAnswer: currentQuestion.correctAnswer,
-      isCorrect: selectedAnswer === currentQuestion.correctAnswer,
-      timeLeft: timeLeft,
-    };
-
-    const newResults = [...results, result];
-    setResults(newResults);
-
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer(null);
-      setIsAnswered(false);
-      setTimeLeft(30);
-      setTimerActive(true);
-    } else {
-      onComplete(newResults);
-    }
-  };
-
-  const handleSubmitAnswer = () => {
-    if (selectedAnswer !== null) {
-      setIsAnswered(true);
-      setTimerActive(false);
-    }
+    setSelectedAnswer(answerIndex);
   };
 
   const formatTime = (seconds) => {
@@ -171,7 +161,6 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
                 value={index}
                 checked={selectedAnswer === index}
                 onChange={() => handleAnswerSelect(index)}
-                disabled={isAnswered}
                 className="option-radio"
               />
               <label 
@@ -188,22 +177,13 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
         </div>
 
         <div className="quiz-actions">
-          {!isAnswered ? (
-            <button
-              className="start-button"
-              onClick={handleSubmitAnswer}
-              disabled={selectedAnswer === null}
-            >
-              Submit Answer
-            </button>
-          ) : (
-            <button
-              className="start-button"
-              onClick={handleNextQuestion}
-            >
-              {currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
-            </button>
-          )}
+          <button
+            className="start-button"
+            onClick={handleSubmitAndNext}
+            disabled={selectedAnswer === null}
+          >
+            {currentQuestionIndex < questions.length - 1 ? 'Submit & Next' : 'Submit & Finish'}
+          </button>
         </div>
       </div>
     </div>

@@ -323,15 +323,15 @@ body {
 .summary-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .stat-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .stat-label {
@@ -350,6 +350,20 @@ body {
 
 .stat-value.incorrect {
     color: #ef4444;
+}
+
+.high-score-item {
+    background: #f0f9ff;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e0f2fe;
+}
+
+.high-score-value {
+    color: #667eea !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem;
 }
 
 .high-score-banner {
@@ -434,6 +448,12 @@ body {
 
 .high-score-details strong {
     color: #2d3748;
+}
+
+.high-score-value {
+    color: #667eea !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem;
 }
 
 .detailed-results {

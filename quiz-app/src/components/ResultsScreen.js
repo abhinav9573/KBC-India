@@ -105,31 +105,16 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
             <span className="stat-label">Incorrect Answers:</span>
             <span className="stat-value incorrect">{totalQuestions - correctAnswers}</span>
           </div>
-          <div className="stat-item">
-            <span className="stat-label">Average Time:</span>
-            <span className="stat-value">
-              {Math.round(results.reduce((sum, result) => sum + (result.timeLeft || 0), 0) / results.length)}s
-            </span>
-          </div>
+          {highScore && (
+            <div className="stat-item high-score-item">
+              <span className="stat-label">High Score:</span>
+              <span className="stat-value high-score-value">
+                {highScore.percentage}% ({highScore.correctAnswers}/{highScore.totalQuestions})
+              </span>
+            </div>
+          )}
         </div>
       </div>
-
-      {highScore && (
-        <div className="high-score-section">
-          <h3>High Score</h3>
-          <div className="high-score-display">
-            <div className="high-score-circle">
-              <span className="high-score-percentage">{highScore.percentage}%</span>
-            </div>
-            <div className="high-score-details">
-              <p><strong>Best Score:</strong> {highScore.correctAnswers}/{highScore.totalQuestions}</p>
-              <p><strong>Topic:</strong> {getTopicName(highScore.topic)}</p>
-              <p><strong>Difficulty:</strong> {getDifficultyName(highScore.difficulty)}</p>
-              <p><strong>Achieved:</strong> {highScore.date}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="detailed-results">
         <h3>Question Details</h3>
@@ -144,11 +129,6 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
                 <span className={`status-text ${result.isCorrect ? 'correct' : 'incorrect'}`}>
                   {result.isCorrect ? 'Correct' : 'Incorrect'}
                 </span>
-                {result.timeLeft !== undefined && (
-                  <span className="time-taken">
-                    {30 - result.timeLeft}s
-                  </span>
-                )}
               </div>
             </div>
           ))}
@@ -156,7 +136,7 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
       </div>
 
       <div className="detailed-question-breakdown">
-        <h3>Detailed Question Breakdown</h3>
+        <h3>Question Breakdown</h3>
         <div className="question-breakdown-list">
           {results.map((result, index) => (
             <div key={result.questionId} className="question-breakdown-item">
@@ -169,30 +149,6 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
               
               <div className="question-content">
                 <p className="question-text-breakdown">{result.question}</p>
-                
-                <div className="options-breakdown">
-                  {result.options.map((option, optionIndex) => (
-                    <div 
-                      key={optionIndex} 
-                      className={`option-breakdown ${
-                        optionIndex === result.selectedAnswer ? 'user-selected' : ''
-                      } ${
-                        optionIndex === result.correctAnswer ? 'correct-answer' : ''
-                      }`}
-                    >
-                      <span className="option-letter-breakdown">
-                        {String.fromCharCode(65 + optionIndex)}
-                      </span>
-                      <span className="option-text-breakdown">{option}</span>
-                      {optionIndex === result.selectedAnswer && (
-                        <span className="selection-indicator">Your Answer</span>
-                      )}
-                      {optionIndex === result.correctAnswer && (
-                        <span className="correct-indicator">Correct Answer</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
                 
                 <div className="answer-summary">
                   <div className="answer-details">
@@ -208,12 +164,6 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
                     <span className="detail-label">Correct Answer:</span>
                     <span className="detail-value correct">
                       {String.fromCharCode(65 + result.correctAnswer)}. {result.options[result.correctAnswer]}
-                    </span>
-                  </div>
-                  <div className="answer-details">
-                    <span className="detail-label">Time Taken:</span>
-                    <span className="detail-value">
-                      {result.timeLeft !== undefined ? `${30 - result.timeLeft} seconds` : 'N/A'}
                     </span>
                   </div>
                 </div>
