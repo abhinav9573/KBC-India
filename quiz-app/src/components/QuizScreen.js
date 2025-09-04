@@ -8,6 +8,8 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -26,6 +28,38 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
     }
   }, [settings]);
 
+  // Timer effect
+  useEffect(() => {
+    if (timerActive && timeLeft > 0 && !isAnswered) {
+      const timer = setTimeout(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0 && !isAnswered) {
+      // Time's up - auto submit with no answer
+      handleTimeUp();
+    }
+  }, [timeLeft, timerActive, isAnswered]);
+
+  // Start timer when question loads
+  useEffect(() => {
+    if (questions.length > 0 && !loading) {
+      setTimeLeft(30);
+      setTimerActive(true);
+      setIsAnswered(false);
+      setSelectedAnswer(null);
+    }
+  }, [currentQuestionIndex, questions.length, loading]);
+
+  const handleTimeUp = () => {
+    setIsAnswered(true);
+    setTimerActive(false);
+    // If no answer selected, treat as incorrect
+    if (selectedAnswer === null) {
+      setSelectedAnswer(-1); // -1 indicates no answer selected
+    }
+  };
+
   const handleAnswerSelect = (answerIndex) => {
     if (!isAnswered) {
       setSelectedAnswer(answerIndex);
@@ -33,32 +67,48 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
   };
 
   const handleNextQuestion = () => {
-    if (selectedAnswer !== null) {
-      const currentQuestion = questions[currentQuestionIndex];
-      const result = {
-        questionId: currentQuestion.id,
-        selectedAnswer: selectedAnswer,
-        correctAnswer: currentQuestion.correctAnswer,
-        isCorrect: selectedAnswer === currentQuestion.correctAnswer,
-      };
+    const currentQuestion = questions[currentQuestionIndex];
+    const result = {
+      questionId: currentQuestion.id,
+      question: currentQuestion.question,
+      options: currentQuestion.options,
+      selectedAnswer: selectedAnswer,
+      correctAnswer: currentQuestion.correctAnswer,
+      isCorrect: selectedAnswer === currentQuestion.correctAnswer,
+      timeLeft: timeLeft,
+    };
 
-      const newResults = [...results, result];
-      setResults(newResults);
+    const newResults = [...results, result];
+    setResults(newResults);
 
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setSelectedAnswer(null);
-        setIsAnswered(false);
-      } else {
-        onComplete(newResults);
-      }
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setSelectedAnswer(null);
+      setIsAnswered(false);
+      setTimeLeft(30);
+      setTimerActive(true);
+    } else {
+      onComplete(newResults);
     }
   };
 
   const handleSubmitAnswer = () => {
     if (selectedAnswer !== null) {
       setIsAnswered(true);
+      setTimerActive(false);
     }
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const getTimerColor = () => {
+    if (timeLeft > 20) return '#10b981';
+    if (timeLeft > 10) return '#f59e0b';
+    return '#ef4444';
   };
 
   if (loading) {
@@ -94,30 +144,46 @@ const QuizScreen = ({ settings, onComplete, onRestart }) => {
             style={{ width: `${progress}%` }}
           ></div>
         </div>
-        <p className="progress-text">
-          Question {currentQuestionIndex + 1} of {questions.length}
-        </p>
+        <div className="quiz-info">
+          <p className="progress-text">
+            Question {currentQuestionIndex + 1} of {questions.length}
+          </p>
+          <div className="timer-container">
+            <div className="timer-circle" style={{ borderColor: getTimerColor() }}>
+              <span className="timer-text" style={{ color: getTimerColor() }}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="question-container">
         <h2 className="question-text">{currentQuestion.question}</h2>
         
-        <div className="options-container">
+        <div className="options-container-vertical">
           {currentQuestion.options.map((option, index) => (
-            <button
-              key={index}
-              className={`option-button ${
-                selectedAnswer === index ? 'selected' : ''
-              } ${
-                isAnswered && index === currentQuestion.correctAnswer ? 'correct' : ''
-              } ${
-                isAnswered && selectedAnswer === index && index !== currentQuestion.correctAnswer ? 'incorrect' : ''
-              }`}
-              onClick={() => handleAnswerSelect(index)}
-              disabled={isAnswered}
-            >
-              {option}
-            </button>
+            <div key={index} className="option-item">
+              <input
+                type="radio"
+                id={`option-${index}`}
+                name="answer"
+                value={index}
+                checked={selectedAnswer === index}
+                onChange={() => handleAnswerSelect(index)}
+                disabled={isAnswered}
+                className="option-radio"
+              />
+              <label 
+                htmlFor={`option-${index}`}
+                className={`option-label ${
+                  selectedAnswer === index ? 'selected' : ''
+                }`}
+              >
+                <span className="option-letter">{String.fromCharCode(65 + index)}</span>
+                <span className="option-text">{option}</span>
+              </label>
+            </div>
           ))}
         </div>
 

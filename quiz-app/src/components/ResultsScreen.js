@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ResultsScreen = ({ results, settings, onRestart }) => {
+  const [highScore, setHighScore] = useState(null);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
+  
   const correctAnswers = results.filter(result => result.isCorrect).length;
   const totalQuestions = results.length;
   const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+
+  useEffect(() => {
+    // Load high score from localStorage
+    const savedHighScore = localStorage.getItem(`highScore_${settings.topic}_${settings.difficulty}`);
+    const currentHighScore = savedHighScore ? JSON.parse(savedHighScore) : null;
+    
+    setHighScore(currentHighScore);
+    
+    // Check if this is a new high score
+    if (!currentHighScore || percentage > currentHighScore.percentage) {
+      const newHighScore = {
+        percentage,
+        correctAnswers,
+        totalQuestions,
+        topic: settings.topic,
+        difficulty: settings.difficulty,
+        date: new Date().toLocaleDateString(),
+        timeStamp: Date.now()
+      };
+      
+      localStorage.setItem(`highScore_${settings.topic}_${settings.difficulty}`, JSON.stringify(newHighScore));
+      setHighScore(newHighScore);
+      setIsNewHighScore(true);
+    }
+  }, [results, settings, percentage, correctAnswers, totalQuestions]);
 
   const getScoreMessage = () => {
     if (percentage >= 90) return "Outstanding! You're a true crorepati! 🏆";
@@ -18,9 +46,29 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
     return "#ef4444";
   };
 
+  const getTopicName = (topic) => {
+    switch(topic) {
+      case 'general': return 'General Knowledge';
+      case 'cs': return 'CS Fundamentals';
+      case 'database': return 'Database SQL';
+      default: return topic;
+    }
+  };
+
+  const getDifficultyName = (difficulty) => {
+    return difficulty?.charAt(0).toUpperCase() + difficulty?.slice(1);
+  };
+
   return (
     <div className="card">
       <h1 className="title">Quiz Results</h1>
+      
+      {isNewHighScore && (
+        <div className="high-score-banner">
+          <span className="high-score-icon">🏆</span>
+          <span className="high-score-text">New High Score!</span>
+        </div>
+      )}
       
       <div className="score-container">
         <div className="score-circle" style={{ borderColor: getScoreColor() }}>
@@ -40,14 +88,13 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
           <div className="stat-item">
             <span className="stat-label">Topic:</span>
             <span className="stat-value">
-              {settings.topic === 'general' ? 'General Knowledge' :
-               settings.topic === 'cs' ? 'CS Fundamentals' : 'Database SQL'}
+              {getTopicName(settings.topic)}
             </span>
           </div>
           <div className="stat-item">
             <span className="stat-label">Difficulty:</span>
             <span className="stat-value">
-              {settings.difficulty?.charAt(0).toUpperCase() + settings.difficulty?.slice(1)}
+              {getDifficultyName(settings.difficulty)}
             </span>
           </div>
           <div className="stat-item">
@@ -58,8 +105,31 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
             <span className="stat-label">Incorrect Answers:</span>
             <span className="stat-value incorrect">{totalQuestions - correctAnswers}</span>
           </div>
+          <div className="stat-item">
+            <span className="stat-label">Average Time:</span>
+            <span className="stat-value">
+              {Math.round(results.reduce((sum, result) => sum + (result.timeLeft || 0), 0) / results.length)}s
+            </span>
+          </div>
         </div>
       </div>
+
+      {highScore && (
+        <div className="high-score-section">
+          <h3>High Score</h3>
+          <div className="high-score-display">
+            <div className="high-score-circle">
+              <span className="high-score-percentage">{highScore.percentage}%</span>
+            </div>
+            <div className="high-score-details">
+              <p><strong>Best Score:</strong> {highScore.correctAnswers}/{highScore.totalQuestions}</p>
+              <p><strong>Topic:</strong> {getTopicName(highScore.topic)}</p>
+              <p><strong>Difficulty:</strong> {getDifficultyName(highScore.difficulty)}</p>
+              <p><strong>Achieved:</strong> {highScore.date}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="detailed-results">
         <h3>Question Details</h3>
@@ -74,6 +144,79 @@ const ResultsScreen = ({ results, settings, onRestart }) => {
                 <span className={`status-text ${result.isCorrect ? 'correct' : 'incorrect'}`}>
                   {result.isCorrect ? 'Correct' : 'Incorrect'}
                 </span>
+                {result.timeLeft !== undefined && (
+                  <span className="time-taken">
+                    {30 - result.timeLeft}s
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="detailed-question-breakdown">
+        <h3>Detailed Question Breakdown</h3>
+        <div className="question-breakdown-list">
+          {results.map((result, index) => (
+            <div key={result.questionId} className="question-breakdown-item">
+              <div className="question-header">
+                <h4 className="question-title">Question {index + 1}</h4>
+                <div className={`question-score ${result.isCorrect ? 'correct' : 'incorrect'}`}>
+                  {result.isCorrect ? '+1' : '0'}
+                </div>
+              </div>
+              
+              <div className="question-content">
+                <p className="question-text-breakdown">{result.question}</p>
+                
+                <div className="options-breakdown">
+                  {result.options.map((option, optionIndex) => (
+                    <div 
+                      key={optionIndex} 
+                      className={`option-breakdown ${
+                        optionIndex === result.selectedAnswer ? 'user-selected' : ''
+                      } ${
+                        optionIndex === result.correctAnswer ? 'correct-answer' : ''
+                      }`}
+                    >
+                      <span className="option-letter-breakdown">
+                        {String.fromCharCode(65 + optionIndex)}
+                      </span>
+                      <span className="option-text-breakdown">{option}</span>
+                      {optionIndex === result.selectedAnswer && (
+                        <span className="selection-indicator">Your Answer</span>
+                      )}
+                      {optionIndex === result.correctAnswer && (
+                        <span className="correct-indicator">Correct Answer</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="answer-summary">
+                  <div className="answer-details">
+                    <span className="detail-label">Your Answer:</span>
+                    <span className={`detail-value ${result.selectedAnswer === result.correctAnswer ? 'correct' : 'incorrect'}`}>
+                      {result.selectedAnswer !== -1 
+                        ? `${String.fromCharCode(65 + result.selectedAnswer)}. ${result.options[result.selectedAnswer]}`
+                        : 'No answer selected'
+                      }
+                    </span>
+                  </div>
+                  <div className="answer-details">
+                    <span className="detail-label">Correct Answer:</span>
+                    <span className="detail-value correct">
+                      {String.fromCharCode(65 + result.correctAnswer)}. {result.options[result.correctAnswer]}
+                    </span>
+                  </div>
+                  <div className="answer-details">
+                    <span className="detail-label">Time Taken:</span>
+                    <span className="detail-value">
+                      {result.timeLeft !== undefined ? `${30 - result.timeLeft} seconds` : 'N/A'}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
