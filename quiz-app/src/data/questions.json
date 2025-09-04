@@ -1,0 +1,362 @@
+[
+  {
+    "id": 1,
+    "question": "What is the capital of India?",
+    "options": ["Mumbai", "Delhi", "Kolkata", "Chennai"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "general"
+  },
+  {
+    "id": 2,
+    "question": "Which planet is known as the Red Planet?",
+    "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "general"
+  },
+  {
+    "id": 3,
+    "question": "Who painted the Mona Lisa?",
+    "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+    "correctAnswer": 2,
+    "difficulty": "easy",
+    "topic": "general"
+  },
+  {
+    "id": 4,
+    "question": "What is the largest ocean on Earth?",
+    "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+    "correctAnswer": 3,
+    "difficulty": "easy",
+    "topic": "general"
+  },
+  {
+    "id": 5,
+    "question": "Which country hosted the 2020 Summer Olympics?",
+    "options": ["China", "Japan", "Brazil", "United Kingdom"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "general"
+  },
+  {
+    "id": 6,
+    "question": "Which river is known as the 'Ganga' in India?",
+    "options": ["Yamuna", "Ganges", "Brahmaputra", "Godavari"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "general"
+  },
+  {
+    "id": 7,
+    "question": "Who wrote 'War and Peace'?",
+    "options": ["Fyodor Dostoevsky", "Leo Tolstoy", "Anton Chekhov", "Ivan Turgenev"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "general"
+  },
+  {
+    "id": 8,
+    "question": "Which element has the chemical symbol 'Au'?",
+    "options": ["Silver", "Gold", "Aluminum", "Arsenic"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "general"
+  },
+  {
+    "id": 9,
+    "question": "In which year did World War II end?",
+    "options": ["1944", "1945", "1946", "1947"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "general"
+  },
+  {
+    "id": 10,
+    "question": "Which mountain range separates Europe from Asia?",
+    "options": ["Alps", "Himalayas", "Ural Mountains", "Caucasus Mountains"],
+    "correctAnswer": 2,
+    "difficulty": "medium",
+    "topic": "general"
+  },
+  {
+    "id": 11,
+    "question": "Which ancient wonder of the world was located in Alexandria?",
+    "options": ["Hanging Gardens", "Colossus of Rhodes", "Lighthouse of Alexandria", "Temple of Artemis"],
+    "correctAnswer": 2,
+    "difficulty": "hard",
+    "topic": "general"
+  },
+  {
+    "id": 12,
+    "question": "Who was the first person to reach the South Pole?",
+    "options": ["Robert Falcon Scott", "Roald Amundsen", "Ernest Shackleton", "Edmund Hillary"],
+    "correctAnswer": 1,
+    "difficulty": "hard",
+    "topic": "general"
+  },
+  {
+    "id": 13,
+    "question": "Which treaty ended the Thirty Years' War?",
+    "options": ["Treaty of Westphalia", "Treaty of Versailles", "Treaty of Paris", "Treaty of Utrecht"],
+    "correctAnswer": 0,
+    "difficulty": "hard",
+    "topic": "general"
+  },
+  {
+    "id": 14,
+    "question": "What is the smallest country in the world by area?",
+    "options": ["Monaco", "Nauru", "Vatican City", "San Marino"],
+    "correctAnswer": 2,
+    "difficulty": "hard",
+    "topic": "general"
+  },
+  {
+    "id": 15,
+    "question": "Which philosopher wrote 'The Republic'?",
+    "options": ["Aristotle", "Socrates", "Plato", "Confucius"],
+    "correctAnswer": 2,
+    "difficulty": "hard",
+    "topic": "general"
+  },
+  {
+    "id": 16,
+    "question": "What does HTML stand for?",
+    "options": ["HyperText Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlink and Text Markup Language"],
+    "correctAnswer": 0,
+    "difficulty": "easy",
+    "topic": "cs"
+  },
+  {
+    "id": 17,
+    "question": "Which programming language is known for its use in web development?",
+    "options": ["C++", "Java", "JavaScript", "Assembly"],
+    "correctAnswer": 2,
+    "difficulty": "easy",
+    "topic": "cs"
+  },
+  {
+    "id": 18,
+    "question": "What is the main purpose of CSS?",
+    "options": ["To create databases", "To style web pages", "To write server code", "To manage files"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "cs"
+  },
+  {
+    "id": 19,
+    "question": "Which data structure follows LIFO principle?",
+    "options": ["Queue", "Stack", "Array", "Linked List"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "cs"
+  },
+  {
+    "id": 20,
+    "question": "What does CPU stand for?",
+    "options": ["Central Processing Unit", "Computer Processing Unit", "Central Program Unit", "Computer Program Unit"],
+    "correctAnswer": 0,
+    "difficulty": "easy",
+    "topic": "cs"
+  },
+  {
+    "id": 21,
+    "question": "What is the time complexity of binary search?",
+    "options": ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "cs"
+  },
+  {
+    "id": 22,
+    "question": "Which sorting algorithm has the best average-case time complexity?",
+    "options": ["Bubble Sort", "Selection Sort", "Quick Sort", "Insertion Sort"],
+    "correctAnswer": 2,
+    "difficulty": "medium",
+    "topic": "cs"
+  },
+  {
+    "id": 23,
+    "question": "What is the purpose of a hash table?",
+    "options": ["To store data in sorted order", "To provide fast key-value lookups", "To compress data", "To encrypt data"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "cs"
+  },
+  {
+    "id": 24,
+    "question": "Which protocol is used for secure web communication?",
+    "options": ["HTTP", "FTP", "HTTPS", "SMTP"],
+    "correctAnswer": 2,
+    "difficulty": "medium",
+    "topic": "cs"
+  },
+  {
+    "id": 25,
+    "question": "What does API stand for?",
+    "options": ["Application Programming Interface", "Advanced Programming Interface", "Automated Program Integration", "Application Process Integration"],
+    "correctAnswer": 0,
+    "difficulty": "medium",
+    "topic": "cs"
+  },
+  {
+    "id": 26,
+    "question": "What is the time complexity of merge sort?",
+    "options": ["O(n log n)", "O(n²)", "O(n)", "O(log n)"],
+    "correctAnswer": 0,
+    "difficulty": "hard",
+    "topic": "cs"
+  },
+  {
+    "id": 27,
+    "question": "Which design pattern ensures only one instance of a class exists?",
+    "options": ["Factory", "Singleton", "Observer", "Strategy"],
+    "correctAnswer": 1,
+    "difficulty": "hard",
+    "topic": "cs"
+  },
+  {
+    "id": 28,
+    "question": "What is the purpose of garbage collection?",
+    "options": ["To compress memory", "To automatically free unused memory", "To encrypt data", "To optimize CPU usage"],
+    "correctAnswer": 1,
+    "difficulty": "hard",
+    "topic": "cs"
+  },
+  {
+    "id": 29,
+    "question": "Which algorithm is used for finding the shortest path in a graph?",
+    "options": ["Bubble Sort", "Dijkstra's Algorithm", "Binary Search", "Quick Sort"],
+    "correctAnswer": 1,
+    "difficulty": "hard",
+    "topic": "cs"
+  },
+  {
+    "id": 30,
+    "question": "What does REST stand for in RESTful API?",
+    "options": ["Representational State Transfer", "Remote Execution State Transfer", "Resource Exchange State Transfer", "Representational Exchange State Transfer"],
+    "correctAnswer": 0,
+    "difficulty": "hard",
+    "topic": "cs"
+  },
+  {
+    "id": 31,
+    "question": "What does SQL stand for?",
+    "options": ["Structured Query Language", "Simple Query Language", "Standard Query Language", "System Query Language"],
+    "correctAnswer": 0,
+    "difficulty": "easy",
+    "topic": "database"
+  },
+  {
+    "id": 32,
+    "question": "Which SQL command is used to retrieve data from a database?",
+    "options": ["INSERT", "SELECT", "UPDATE", "DELETE"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "database"
+  },
+  {
+    "id": 33,
+    "question": "What is a primary key in a database table?",
+    "options": ["A column that can be null", "A column that uniquely identifies each row", "A column that stores text", "A column that stores numbers"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "database"
+  },
+  {
+    "id": 34,
+    "question": "Which SQL command is used to add new records to a table?",
+    "options": ["SELECT", "INSERT", "UPDATE", "DELETE"],
+    "correctAnswer": 1,
+    "difficulty": "easy",
+    "topic": "database"
+  },
+  {
+    "id": 35,
+    "question": "What does NULL represent in SQL?",
+    "options": ["Zero", "Empty string", "Missing or unknown value", "False"],
+    "correctAnswer": 2,
+    "difficulty": "easy",
+    "topic": "database"
+  },
+  {
+    "id": 36,
+    "question": "Which SQL clause is used to filter records?",
+    "options": ["SELECT", "FROM", "WHERE", "ORDER BY"],
+    "correctAnswer": 2,
+    "difficulty": "medium",
+    "topic": "database"
+  },
+  {
+    "id": 37,
+    "question": "What is the purpose of an INDEX in a database?",
+    "options": ["To store data", "To improve query performance", "To backup data", "To encrypt data"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "database"
+  },
+  {
+    "id": 38,
+    "question": "Which SQL command is used to modify existing records?",
+    "options": ["INSERT", "SELECT", "UPDATE", "DELETE"],
+    "correctAnswer": 2,
+    "difficulty": "medium",
+    "topic": "database"
+  },
+  {
+    "id": 39,
+    "question": "What does JOIN do in SQL?",
+    "options": ["Combines rows from two or more tables", "Deletes duplicate records", "Sorts records", "Groups records"],
+    "correctAnswer": 0,
+    "difficulty": "medium",
+    "topic": "database"
+  },
+  {
+    "id": 40,
+    "question": "Which SQL function is used to count records?",
+    "options": ["SUM()", "COUNT()", "AVG()", "MAX()"],
+    "correctAnswer": 1,
+    "difficulty": "medium",
+    "topic": "database"
+  },
+  {
+    "id": 41,
+    "question": "What is the difference between INNER JOIN and LEFT JOIN?",
+    "options": ["No difference", "INNER JOIN returns all records, LEFT JOIN returns matching records", "INNER JOIN returns matching records, LEFT JOIN returns all records from left table", "INNER JOIN is faster"],
+    "correctAnswer": 2,
+    "difficulty": "hard",
+    "topic": "database"
+  },
+  {
+    "id": 42,
+    "question": "What does ACID stand for in database transactions?",
+    "options": ["Atomicity, Consistency, Isolation, Durability", "Accuracy, Consistency, Integrity, Durability", "Atomicity, Correctness, Isolation, Durability", "Accuracy, Consistency, Integrity, Data"],
+    "correctAnswer": 0,
+    "difficulty": "hard",
+    "topic": "database"
+  },
+  {
+    "id": 43,
+    "question": "Which SQL command is used to create a new table?",
+    "options": ["CREATE TABLE", "NEW TABLE", "ADD TABLE", "INSERT TABLE"],
+    "correctAnswer": 0,
+    "difficulty": "hard",
+    "topic": "database"
+  },
+  {
+    "id": 44,
+    "question": "What is a foreign key in a database?",
+    "options": ["A key that is always unique", "A key that references a primary key in another table", "A key that stores text", "A key that is never null"],
+    "correctAnswer": 1,
+    "difficulty": "hard",
+    "topic": "database"
+  },
+  {
+    "id": 45,
+    "question": "Which SQL command is used to remove a table?",
+    "options": ["DELETE TABLE", "REMOVE TABLE", "DROP TABLE", "CLEAR TABLE"],
+    "correctAnswer": 2,
+    "difficulty": "hard",
+    "topic": "database"
+  }
+]
